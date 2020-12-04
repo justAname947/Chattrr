@@ -16,7 +16,11 @@ wss.on('connection', (ws) => {
     ws.send('Welcome Cleint!');
 
     ws.on('message', (message) => {
-        console.log(message);
+        wss.clients.forEach((cleint)=>{
+            if(cleint !== ws && cleint.readyState=== WebSocket.OPEN){
+                cleint.send(message);
+            }
+        })
     });
 });
 
